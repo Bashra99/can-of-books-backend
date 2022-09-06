@@ -8,6 +8,7 @@ const mongoose = require('mongoose'); // 0 - import mongoose
 
 
 const app = express();
+app.use(express.json());
 app.use(cors());
 //IP : http://localhost:PORT
 
@@ -72,7 +73,7 @@ function deleteBookHandler(req,res) {
           else
           {
               // console.log(result);
-              res.send(result);
+              res.json(result);
           }
       })
 
