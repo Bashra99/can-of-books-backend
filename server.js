@@ -48,6 +48,17 @@ function homeHandler(req,res) {
 function defualtHandler(req,res) {
   res.send("Sorry, Page not found");
 }
+function getBookHandler(req,res) {
+  book.find({},(err,result)=>{
+    if(err){
+      res.send(err);
+    }else{
+      // res.send(result);
+      res.json(result);
+
+    }
+  });
+  }
 async function bookHandler(req, res) {
   // console.log(req.body);
   // const title = req.body.title;
