@@ -19,6 +19,13 @@ mongoose.connect("mongodb://work:1234@Cluster0-shard-00-00.regzjy1.mongodb.net:2
   useUnifiedTopology: true,
 });
 
+const bookSchema = new mongoose.Schema({
+    title: String,
+    description: String,
+    status: String,
+  });
+
+const book = mongoose.model('book', bookSchema);
 let getBookHandler = require("./book");
 
 
