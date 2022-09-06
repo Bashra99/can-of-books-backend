@@ -18,22 +18,56 @@ mongoose.connect("mongodb://work:1234@Cluster0-shard-00-00.regzjy1.mongodb.net:2
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+// mongoose.connect('mongodb://localhost:27017/bookapp', {useNewUrlParser: true, useUnifiedTopology: true});
+// let getBookHandler = require("./book");
 
 const bookSchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    status: String,
+  title: String,
+  description: String,
+  status: String,
+});
+
+const book = mongoose.model('books', bookSchema);
+
+async function seedData(){
+  const book1 = new book({
+    title: 'The Hobbit',
+    description: 'A book about a hobbit',
+    status: 'read'
   });
+  const book2 = new book({
+    title: 'The Lord of the Rings',
+    description: 'A book about a ring',
+    status: 'read'
+  });
+  const book3 = new book({
+    title: 'The Silmarillion',
+    description: 'A book about a silmarillion',
+    status: 'read'
+  });
+  await book1.save();
+  await book2.save();
+  await book3.save();
+  
+}
+// http://localhost:3010/book
+function getBookHandler(req,res) {
+  book.find({},(err,result)=>{
+    if(err){
+      res.send(err);
+    }else{
+      // res.send(result);
+      res.json(result);
 
-const book = mongoose.model('book', bookSchema);
-let getBookHandler = require("./book");
-
+    }
+  });
+  }
 
 // seedData();
 // Routes
-app.get("/book", getBookHandler  );
-app.post("/book", bookHandler);
-app.delete('/book/:id',deleteBookHandler);
+app.get("/books", getBookHandler  );
+// app.post("/books", bookHandler);
+app.delete('/books/:id',deleteBookHandler);
 app.get("/", homeHandler);
 app.get("/test", (req, res) => {
   res.send("test request received");
@@ -48,19 +82,8 @@ function homeHandler(req,res) {
 function defualtHandler(req,res) {
   res.send("Sorry, Page not found");
 }
-function getBookHandler(req,res) {
-  book.find({},(err,result)=>{
-    if(err){
-      res.send(err);
-    }else{
-      // res.send(result);
-      res.json(result);
-
-    }
-  });
-  }
-async function bookHandler(req, res) {
-  // console.log(req.body);
+ async function bookHandler(req, res) {
+  console.log(req.body);
   // const title = req.body.title;
   // const description = req.body.description;
   // const status = req.body.status;
@@ -79,25 +102,40 @@ async function bookHandler(req, res) {
     }
   });
 }
+app.post('/books', bookHandler);
+
+
 function deleteBookHandler(req,res) { 
   const bookId = req.params.id; 
   book.deleteOne({_id:bookId},(err,result)=>{
       
-      book.find({},(err,result)=>{ 
-          if(err)
-          {
-              console.log(err);
-          }
-          else
-          {
-              // console.log(result);
-              res.json(result);
-          }
-      })
+      // book.find({},(err,result)=>{ 
+      //     if(err)
+      //     {
+      //         console.log(err);
+      //     }
+      //     else
+      //     {
+      //         // console.log(result);
+      //         res.json(result);
+      //     }
+      // })
 
+      book.find({},(err,result)=>{
+        if(err){
+          res.send(err);
+        }else{
+          // res.send(result);
+          res.json(result);
+        }
+      }
+      );
   })
-  
 }
+ 
+  
+
+
 
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
