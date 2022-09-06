@@ -36,11 +36,35 @@ const bookSchema = new mongoose.Schema({
       if(err){
         res.send(err);
       }else{
-        res.send(result);
+        // res.send(result);
+        res.json(result);
+
       }
     });
     }
+    // async function bookHandler(req, res) {
+    //   // console.log(req.body);
+    //   const {title,description,status} = req.body;
+    //   await book.create({
+    //     title: title,
+    //     description: description,
+    //     status: status
+    //   });
+    
+    //   book.find({}, (err, result) => {
+    //     if (err) {
+    //       console.log(err);
+    //     }
+    //     else {
+    //       res.json(result);
+    //     }
+    //   });
+    // }
+    
+   
   // seedData();
-
+  
+  
   
   module.exports = getBookHandler ;
+  // module.exports = bookHandler ;
