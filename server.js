@@ -132,6 +132,30 @@ function deleteBookHandler(req,res) {
       );
   })
 }
+app.put('/books/:id',updateBookHandler);
+
+function updateBookHandler(req, res){
+  const id = req.params.id;
+  const {title,description,status} = req.body;
+
+  book.findByIdAndUpdate(id, {title,description,status}, (err, result) => {
+    if(err){
+      console.log(err);
+    } else {
+      book.find({},(err,result)=>{ 
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            res.json(result);
+        }
+    })
+    }
+  })
+
+}
  
   
 
