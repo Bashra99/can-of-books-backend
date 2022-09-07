@@ -137,6 +137,7 @@ function deleteBookHandler(req,res) {
 
 function updateBookHandler(req, res){
   const id = req.params.id;
+  console.log(id);
   const {title,description,status} = req.body;
 
   book.findByIdAndUpdate(id, {title,description,status}, (err, result) => {
