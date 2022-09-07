@@ -68,6 +68,7 @@ function getBookHandler(req,res) {
 app.get("/books", getBookHandler  );
 // app.post("/books", bookHandler);
 app.delete('/books/:id',deleteBookHandler);
+app.put('/updateBook/:id',updateBookHandler);
 app.get("/", homeHandler);
 app.get("/test", (req, res) => {
   res.send("test request received");
@@ -132,7 +133,7 @@ function deleteBookHandler(req,res) {
       );
   })
 }
-app.put('/books/:id',updateBookHandler);
+
 
 function updateBookHandler(req, res){
   const id = req.params.id;
@@ -149,6 +150,7 @@ function updateBookHandler(req, res){
         }
         else
         {
+            console.log(result);
             res.json(result);
         }
     })
